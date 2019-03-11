@@ -36,6 +36,24 @@ namespace WishList.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var item = _context.Items.Find(id);
+            return View("Update", item);
+        }
+
+        [HttpPost]
+        public IActionResult Update(int id, Models.Item item)
+        {
+            var dbItem = _context.Items.Find(id);
+            dbItem.Description = item.Description;
+
+            _context.Update(dbItem);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Delete(int id)
         {
             var item = _context.Items.FirstOrDefault(x => x.Id == id);
